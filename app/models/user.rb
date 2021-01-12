@@ -4,4 +4,9 @@ class User < ApplicationRecord
 
     belongs_to :patient, class_name: "User", foreign_key: "patient_id"
     belongs_to :doctor, class_name: "User", foreign_key: "doctor_id"
+
+    has_secure_password
+    
+    validates :email, uniqueness: true
+
 end
