@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_004810) do
+ActiveRecord::Schema.define(version: 2021_01_12_030314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "doctors", force: :cascade do |t|
+    t.string "speciality"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_doctors_on_user_id"
+  end
 
   create_table "medications", force: :cascade do |t|
     t.string "name"
@@ -21,19 +29,24 @@ ActiveRecord::Schema.define(version: 2021_01_12_004810) do
     t.integer "refill"
     t.integer "quantity"
     t.integer "rxnum"
-    t.integer "patient_id"
-    t.integer "doctor_id"
+    t.string "instructions"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "orders", force: :cascade do |t|
     t.integer "patient_id"
-    t.integer "doctor_id"
     t.integer "medication_id"
     t.string "confirmation_num"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_01_12_004810) do
     t.string "last"
     t.string "email"
     t.string "password"
+    t.boolean "provider"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
