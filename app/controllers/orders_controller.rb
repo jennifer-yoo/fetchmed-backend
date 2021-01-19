@@ -17,6 +17,16 @@ class OrdersController < ApplicationController
         end
     end
 
+    def edit
+        order = Order.find(params[:id])
+        order.update(order_params)
+    end
+
+    def destroy
+        order = order.find(params[:id])
+        order.destroy
+    end
+
     private
 
     def order_params
